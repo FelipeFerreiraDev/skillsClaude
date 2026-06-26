@@ -48,7 +48,7 @@ Analisa o projeto automaticamente (ecossistema, entrypoints, scripts, variáveis
 
 Commands são invocados explicitamente via slash command — o Claude não os dispara sozinho.
 
-### `/dispatching-parallel-agents`
+### `/multi-agents`
 
 Instrui o Claude a despachar múltiplos subagentes em paralelo para resolver problemas independentes ao mesmo tempo. Use quando você tem N tarefas que não dependem uma da outra e quer que rodem concorrentemente.
 
@@ -60,7 +60,7 @@ Instrui o Claude a despachar múltiplos subagentes em paralelo para resolver pro
 
 ## Agents disponíveis
 
-Agents são personas especializadas invocadas pelo Claude como subagentes — geralmente via `/dispatching-parallel-agents` ou diretamente quando você precisa de um especialista pontual.
+Agents são personas especializadas invocadas pelo Claude como subagentes — geralmente via `/multi-agents` ou diretamente quando você precisa de um especialista pontual.
 
 | Agent | Papel | Escreve código? |
 |---|---|---|
@@ -69,6 +69,7 @@ Agents são personas especializadas invocadas pelo Claude como subagentes — ge
 | `error-investigator` | Diagnóstico e causa raiz de falhas | Não — só relatório |
 | `architect` | Design de software e plano de solução | Não — só plano |
 | `database-architect` | Schema, índices, migrations | Só migrations |
+| `db-security-auditor` | SQL injection, credenciais, permissões, `docs/db-audit.md` | Não — só auditoria |
 | `documenter` | JSDoc, Swagger/OpenAPI, comentários inline | Só documentação |
 
 ---
@@ -83,19 +84,19 @@ Para qualquer tarefa coesa: um bug, uma feature, uma refatoração. O contexto f
 dev-workflow → implementa → git-commit-workflow → git-pr-workflow
 ```
 
-### `/dispatching-parallel-agents` — quando há independência clara
+### `/multi-agents` — quando há independência clara
 
 Para quando você olha a lista de tarefas e percebe que elas não têm nada a ver uma com a outra. Ele não implementa — coordena agentes que implementam em paralelo.
 
 ```
-/dispatching-parallel-agents → agente A + agente B + agente C (em paralelo)
+/multi-agents → agente A + agente B + agente C (em paralelo)
 ```
 
 ### Combinação — tarefas grandes com partes independentes
 
 ```
 architect           → desenha a solução
-/dispatching-parallel-agents → implementa partes independentes em paralelo
+/multi-agents → implementa partes independentes em paralelo
 unit-tester + integration-tester em paralelo → cobre tudo
 git-commit-workflow + git-pr-workflow → fecha o ciclo
 ```
