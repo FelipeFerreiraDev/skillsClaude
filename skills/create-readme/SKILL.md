@@ -2,9 +2,16 @@
 name: create-readme
 description: >
   Gera ou atualiza o README.md de um repositório com base na análise automática do projeto.
-  Use esta skill quando o desenvolvedor disser "cria um README", "gera documentação", "documenta o projeto",
-  "faz o README", "preciso de um README", "atualiza o README", "melhora a documentação",
-  "escreve o README para mim", ou qualquer variação de pedido de criação ou atualização de README.
+  Use esta skill sempre que o desenvolvedor mencionar o README com intenção de criar, atualizar,
+  melhorar ou refletir mudanças nele — independente do nível de detalhe do pedido.
+  Exemplos diretos: "cria um README", "gera documentação", "documenta o projeto", "faz o README",
+  "preciso de um README", "atualiza o README", "melhora a documentação", "escreve o README para mim",
+  "adiciona X no README", "deixa X claro no README", "coloca isso no README".
+  Exemplos implícitos (contexto de conversa): "atualiza ele" quando o README foi mencionado antes,
+  "reflete isso na documentação", "documenta essa mudança", "o README está desatualizado",
+  "adiciona os novos agents/commands/skills no README".
+  IMPORTANTE: se o pedido envolve modificar ou reescrever o README.md por qualquer motivo,
+  esta skill deve ser invocada — não implemente manualmente.
 ---
 
 # Create README

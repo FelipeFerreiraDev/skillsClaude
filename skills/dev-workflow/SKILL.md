@@ -57,11 +57,21 @@ git add .
 git commit -m "chore: initial commit"
 ```
 
-Leia os arquivos principais do projeto para entender a arquitetura:
-- Entry points (`main.ts`, `index.ts`, `main.go`, `app.py`, `Program.cs`, etc.)
-- Arquivos de configuração relevantes
-- CLAUDE.md se existir, para entender o estilo de escrita e padrões do projeto
-- Pastas de módulos/domínios afetados pelas tarefas que serão descritas
+### Contexto arquitetural — verifique antes de ler código
+
+Tente ler `docs/architecture/CONTEXT.md`:
+
+- **Se existir:** leia-o. Ele contém a layer map, convenções de nomenclatura, framework
+  detectado e interfaces-chave definidos pelo agente arquiteto. Use essas informações
+  para guiar onde criar arquivos, como nomeá-los e quais camadas envolver.
+  Não é necessário explorar a estrutura de pastas além do que o CONTEXT.md já descreve.
+
+- **Se não existir:** sem problema — siga normalmente. Leia os arquivos abaixo para
+  inferir os padrões do projeto:
+  - Entry points (`main.ts`, `index.ts`, `main.go`, `app.py`, `Program.cs`, etc.)
+  - Arquivos de configuração relevantes
+  - CLAUDE.md se existir, para entender o estilo de escrita e padrões do projeto
+  - Pastas de módulos/domínios afetados pelas tarefas que serão descritas
 
 Não pergunte o que não precisar: contexto suficiente para entender o projeto já basta.
 
@@ -208,6 +218,63 @@ Após completar todas as tarefas, apresente um resumo:
 > Quer revisar algum arquivo antes de prosseguir para o commit?"
 
 Se o desenvolvedor quiser ajustes, aplique-os agora antes de avançar para as próximas etapas.
+
+___
+
+## ETAPA 5.5 — Atualizar CONTEXT.md — OPCIONAL SÓ EXECUTE SE HOUVER MUDANÇAS ESTRUTURAIS
+
+Execute esta etapa apenas se a implementação criou novos módulos, pastas, interfaces
+ou resolveu dúvidas abertas registradas no CONTEXT.md.
+
+### Caso A — CONTEXT.md existe
+
+Atualize **somente** as seções factuais que mudaram:
+
+- **Layer Map** — adicione novas pastas ou módulos criados
+- **Key Interfaces / Contracts** — adicione novas interfaces ou tipos centrais
+- **Open Questions** — remova as dúvidas que foram respondidas durante a implementação
+
+**Não toque em:** Architecture Style, Naming Conventions, Import Conventions.
+Essas seções são domínio exclusivo do agente arquiteto.
+
+Atualize o campo `updated` no frontmatter para a data atual.
+
+### Caso B — CONTEXT.md não existe
+
+Crie `docs/architecture/CONTEXT.md` com uma versão mínima baseada no que foi
+observado durante a implementação. Use `unknown — run /architect to fill` para
+campos que não foi possível determinar com certeza:
+
+```markdown
+---
+updated: <YYYY-MM-DD>
+scanned_files: 0
+---
+
+## Architecture Style
+[O que foi observado, ou "unknown — run /architect to fill"]
+
+## Framework
+[Nome detectado, ou "unknown — run /architect to fill"]
+
+## Layer Map
+[Pastas criadas/observadas → camada correspondente]
+
+## Naming Conventions
+unknown — run /architect to fill
+
+## Import Conventions
+unknown — run /architect to fill
+
+## Known Circular Dependencies
+none detected
+
+## Key Interfaces / Contracts
+[Interfaces criadas nesta sessão, se houver]
+
+## Open Questions
+- Context created by dev-workflow, not fully analyzed — run /architect to complete
+```
 
 ___
 
