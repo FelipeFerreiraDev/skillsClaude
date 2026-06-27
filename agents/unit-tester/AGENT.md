@@ -1,5 +1,6 @@
 ---
 name: unit-tester
+model: haiku
 description: >
   Especialista em escrita de testes unitários. Cria testes isolados com mocks,
   stubs e spies. Foca em cobrir comportamentos, casos de borda e caminhos de erro

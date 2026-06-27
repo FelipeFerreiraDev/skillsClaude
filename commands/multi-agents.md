@@ -24,13 +24,24 @@ ___
 | `error-investigator` | Diagnóstico de falhas, relatório em `docs/investigations/` | Não |
 | `unit-tester` | Testes unitários com mocks/stubs, código isolado | Arquivos de teste |
 | `integration-tester` | Testes ponta a ponta com infraestrutura real | Arquivos de teste |
+| `node-backend` | Código de produção Node.js/TS — entidades, use cases, adapters, controllers (Express/NestJS + Prisma, Hexagonal/Clean Architecture) | Sim |
+| `react-frontend` | Código de produção React/Vite/TS — componentes, hooks, serviços de API, rotas, CSS Modules | Sim |
 
-**Agentes de leitura** (`error-investigator`, `db-security-auditor`, `documenter`):
-seguros para rodar em paralelo sem risco de conflito — não alteram código de produção.
+**Agentes somente leitura** (`error-investigator`, `db-security-auditor`):
+seguros para rodar em paralelo com qualquer outro — não escrevem nada além de relatórios
+em `docs/`.
 
-**Agentes de escrita** (`unit-tester`, `integration-tester`, `architect`,
-`database-architect`): verifique se escrevem em arquivos diferentes antes de
-rodar em paralelo.
+**Agentes de escrita com destinos distintos — paralelo seguro entre si:**
+- `documenter` → escreve em arquivos de produção (adiciona JSDoc/Swagger/comentários)
+- `unit-tester` → escreve arquivos de teste unitário (`*.spec.ts`)
+- `integration-tester` → escreve arquivos de teste de integração (`*.e2e-spec.ts`)
+
+Os três escrevem em arquivos diferentes por natureza, portanto **podem sempre rodar
+em paralelo entre si e com `error-investigator` / `db-security-auditor`**.
+
+**Agentes de escrita que exigem verificação antes de paralelizar** (`architect`,
+`database-architect`, `node-backend`, `react-frontend`): verifique se escrevem
+em arquivos diferentes antes de rodar em paralelo.
 
 ___
 
@@ -131,6 +142,37 @@ documenter          → documenta endpoints da API
 unit-tester        → testes unitários de `user.service.ts`
 integration-tester → testes de integração do fluxo de cadastro
 # Escrevem arquivos diferentes — sem conflito.
+```
+
+**Cobertura + documentação em paralelo (combinação máxima segura)**
+```
+unit-tester        → testes unitários de `payment.service.ts`
+integration-tester → testes de integração do fluxo de checkout
+documenter         → documenta endpoints de `order.controller.ts` com Swagger
+# Três agentes simultâneos: cada um escreve em arquivos de natureza diferente.
+# unit/integration → arquivos de teste; documenter → comentários no código de produção.
+```
+
+**Feature fullstack em paralelo**
+```
+node-backend   → implementa use case + controller + repository da feature
+react-frontend → implementa página + componentes + service de API
+# Rodam em paralelo; escrevem em diretórios distintos (src/backend vs src/frontend ou monorepo).
+# CUIDADO: alinhe o contrato da API (tipos de request/response) antes de despachar.
+```
+
+**Implementação + cobertura simultânea**
+```
+node-backend    → implementa o módulo de pagamento
+unit-tester         → escreve testes unitários de um módulo já existente (não relacionado)
+# O unit-tester não toca no código novo — sem conflito.
+```
+
+**Implementação + documentação**
+```
+node-backend   → implementa endpoints de autenticação
+documenter           → documenta endpoints de produto já existentes com Swagger/OpenAPI
+# O documenter só adiciona JSDoc — não conflita com o código novo.
 ```
 
 ___

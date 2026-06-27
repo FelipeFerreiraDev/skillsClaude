@@ -1,5 +1,6 @@
 ---
 name: documenter
+model: haiku
 description: >
   Especialista em documentação técnica de código. Escreve JSDoc, rustdoc,
   docstrings Python, godoc, Javadoc, Doxygen, KDoc, XML Doc, PHPDoc, YARD,

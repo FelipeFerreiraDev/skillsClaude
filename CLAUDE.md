@@ -12,6 +12,7 @@ Uma coleção de **skills**, **commands** e **agents** para o Claude Code — co
 skills/<nome>/SKILL.md    — Skills: workflows multi-etapa disparados por intenção
 commands/<nome>.md        — Commands: aliases diretos de slash commands
 agents/<nome>/            — Agents: personas especializadas
+docs/                     — Documentação do repositório (fluxos, guias de uso)
 ```
 
 ## Formato de skill
